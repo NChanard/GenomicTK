@@ -26,6 +26,8 @@ Imports:
     tibble,
     tidyr,
     tidyselect
+Remotes:
+    NChanard/DevTK
 License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
