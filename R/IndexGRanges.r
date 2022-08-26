@@ -99,7 +99,7 @@ IndexGRanges <- function(gRange.gnr_lst=NULL, constraint.gnr=NULL, chromSize.dtf
             names(S4Vectors::mcols(binnedFeature.gnr))[which(names(S4Vectors::mcols(binnedFeature.gnr)) == paste0(feature.chr, ".bin"))] <- "bin"
             names(S4Vectors::mcols(binnedFeature.gnr))[which(names(S4Vectors::mcols(binnedFeature.gnr)) == paste0(feature.chr, ".constraint"))] <- "constraint"
             binnedFeature.gnr$name <- paste0(binnedFeature.gnr$bin, ":", binnedFeature.gnr$constraint)
-            metadataBinnedFeature.dtf <- binnedFeature.gnr %>% S4Vectors::mcols %>% data.frame
+            metadataBinnedFeature.dtf <- binnedFeature.gnr %>% S4Vectors::mcols(.) %>% data.frame
             S4Vectors::mcols(binnedFeature.gnr) <- NULL
             return(list(binnedFeature.gnr=binnedFeature.gnr, featureMetadata.dtf=metadataBinnedFeature.dtf))
         })
