@@ -21,11 +21,9 @@ Imports:
     parallel,
     plyr,
     S4Vectors,
-    stats,
     stringr,
     tibble,
-    tidyr,
-    tidyselect
+    tidyr
 Remotes:
     NChanard/DevTK
 License: MIT + file LICENSE
