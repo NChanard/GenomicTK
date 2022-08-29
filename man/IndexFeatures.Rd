@@ -68,7 +68,7 @@ GRanges_Constraint <- GenomicRanges::GRanges(
     strand = S4Vectors::Rle(BiocGenerics::strand(c("*")), c(4))
 )
 GRanges_Constraint
-index.tbl = IndexFeatures(
+index.gnr = IndexFeatures(
     gRange.gnr_lst=list(GR_1 = GRanges_1.gr, GR_2 = GRanges_2.gr),
     constraint.gnr=GRanges_Constraint,
     chromSize.dtf=data.frame(
@@ -78,5 +78,5 @@ index.tbl = IndexFeatures(
     method.chr ="mean",
     variablesName.chr_vec = c("score")
     )
-index.tbl
+index.gnr
 }

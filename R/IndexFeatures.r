@@ -40,7 +40,7 @@
 #'     strand = S4Vectors::Rle(BiocGenerics::strand(c("*")), c(4))
 #' )
 #' GRanges_Constraint
-#' index.tbl = IndexFeatures(
+#' index.gnr = IndexFeatures(
 #'     gRange.gnr_lst=list(GR_1 = GRanges_1.gr, GR_2 = GRanges_2.gr),
 #'     constraint.gnr=GRanges_Constraint,
 #'     chromSize.dtf=data.frame(
@@ -50,7 +50,7 @@
 #'     method.chr ="mean",
 #'     variablesName.chr_vec = c("score")
 #'     )
-#' index.tbl
+#' index.gnr
 
 IndexFeatures <- function(gRange.gnr_lst=NULL, constraint.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, method.chr="mean", variablesName.chr_vec=NULL,cores.num=1, verbose.bln=TRUE){
     # Constraint Informations
