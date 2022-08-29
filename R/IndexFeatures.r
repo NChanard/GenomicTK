@@ -1,4 +1,4 @@
-#' IndexGRanges
+#' IndexFeatures
 #'
 #' Bin multiple GRanges and summary all in one GRange. Could overlap ranges with constraints regions
 #' @param gRange.gnr_lst <GRanges or GRangesList or list[GRanges]>: some GRanges or a list of GRanges or a GRangesList
@@ -11,7 +11,48 @@
 #' @param verbose.bln <logical>: A logical value. If TRUE show the progression in console. (Default TRUE)
 #' @return A GRange object.
 #' @examples
-IndexGRanges <- function(gRange.gnr_lst=NULL, constraint.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, method.chr="mean", variablesName.chr_vec=NULL,cores.num=1, verbose.bln=TRUE){
+#' GRanges_1.gr <- GenomicRanges::GRanges(
+#'     seqnames = S4Vectors::Rle( c("chr1", "chr2"), c(4, 2) ),
+#'     ranges = IRanges::IRanges(
+#'         start = c(5, 220, 260, 540, 50, 540),
+#'         end =  c(80, 240, 280, 560, 150, 580)),
+#'     strand = S4Vectors::Rle(BiocGenerics::strand(c("-","+","*","-","+","+")), c(1,1,1,1,1,1)),
+#'     score = 1:6,
+#'     name = letters[1:6]
+#' )
+#' GRanges_1.gr
+#' GRanges_2.gr <- GenomicRanges::GRanges(
+#'     seqnames = S4Vectors::Rle( c("chr1", "chr2"), c(3, 2) ),
+#'     ranges = IRanges::IRanges(
+#'         start = c(140, 220, 450, 320, 360),
+#'         end =  c(160, 280, 550, 350, 380)),
+#'     strand = S4Vectors::Rle(BiocGenerics::strand(c("-","+","*")), c(1,2,2)),
+#'     score = seq(10,50,10),
+#'     name = letters[7:11]
+#' )
+#' GRanges_2.gr
+#' GRanges_Constraint <- GenomicRanges::GRanges(
+#'     seqnames = S4Vectors::Rle( c("chr1", "chr2"), c(2, 2) ),
+#'     ranges = IRanges::IRanges(
+#'         start = c(1, 251, 1, 50),
+#'         end =  c(250, 490, 400, 190),
+#'         names = paste0("C_",1:4)),
+#'     strand = S4Vectors::Rle(BiocGenerics::strand(c("*")), c(4))
+#' )
+#' GRanges_Constraint
+#' index.tbl = IndexFeatures(
+#'     gRange.gnr_lst=list(GR_1 = GRanges_1.gr, GR_2 = GRanges_2.gr),
+#'     constraint.gnr=GRanges_Constraint,
+#'     chromSize.dtf=data.frame(
+#'         seqnames=c("chr1", "chr2"),
+#'         seqlengths=c(3500,2000)),
+#'     binSize.int=100,
+#'     method.chr ="mean",
+#'     variablesName.chr_vec = c("score")
+#'     )
+#' index.tbl
+
+IndexFeatures <- function(gRange.gnr_lst=NULL, constraint.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, method.chr="mean", variablesName.chr_vec=NULL,cores.num=1, verbose.bln=TRUE){
     # Constraint Informations
         if (is.null(constraint.gnr)){
             constraint.gnr <- GenomicRanges::GRanges(
@@ -30,7 +71,7 @@ IndexGRanges <- function(gRange.gnr_lst=NULL, constraint.gnr=NULL, chromSize.dtf
             seqLevelsStyle.chr <- seqLevelsStyle.chr[[1]]
             GenomeInfoDb::seqlevelsStyle(constraint.gnr) <- seqLevelsStyle.chr
         }
-        binnedConstraint.gnr <- GenomicTK::BinGRange(gRange.gnr=constraint.gnr, chromSize.dtf=chromSize.dtf, binSize.int=binSize.int, verbose.bln=verbose.bln, reduce.bln=FALSE, cores.num=cores.num)
+        binnedConstraint.gnr <- GenomicTK::BinGRanges(gRange.gnr=constraint.gnr, chromSize.dtf=chromSize.dtf, binSize.int=binSize.int, verbose.bln=verbose.bln, reduce.bln=FALSE, cores.num=cores.num)
     # Feature Names
         if (inherits(gRange.gnr_lst,"GRanges")){
             gRange.gnr_lst %<>% list(.) %>% magrittr::set_names(., "Feature")
@@ -49,7 +90,7 @@ IndexGRanges <- function(gRange.gnr_lst=NULL, constraint.gnr=NULL, chromSize.dtf
             feature.chr <- feature.chr_vec[[feature.ndx]]
             feature.gnr <- gRange.gnr_lst[[feature.chr ]] %>% IRanges::subsetByOverlaps(.,constraint.gnr)
             GenomeInfoDb::seqlevelsStyle(feature.gnr) <- seqLevelsStyle.chr
-            binnedFeature.gnr <- GenomicTK::BinGRange(gRange.gnr=feature.gnr, chromSize.dtf=chromSize.dtf, binSize.int=binSize.int,  method.chr=method.chr, variablesName.chr_vec=variablesName.chr_vec, verbose.bln=verbose.bln, reduce.bln=TRUE, cores.num=cores.num)
+            binnedFeature.gnr <- GenomicTK::BinGRanges(gRange.gnr=feature.gnr, chromSize.dtf=chromSize.dtf, binSize.int=binSize.int,  method.chr=method.chr, variablesName.chr_vec=variablesName.chr_vec, verbose.bln=verbose.bln, reduce.bln=TRUE, cores.num=cores.num)
             binnedFeat.tbl = tibble::tibble(BinnedFeature.ndx = seq_along(binnedFeature.gnr),Feature.name = binnedFeature.gnr$name) %>%
                 tidyr::unnest(.,cols = c(Feature.name)) %>%
                 dplyr::group_by(Feature.name) %>%

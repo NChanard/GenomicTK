@@ -1,12 +1,12 @@
-#' StrToGRange
+#' StrToGRanges
 #'
 #' Convert ranges written in Genomic system (i.e seqname:start-end:strand) in GRanges object.
 #' @param x.chr_vec <character>: strings to convert on GRanges
 #' @return A GRanges object
 #' @examples
-#' StrToGRange("chr1:1-100:+")
-#' StrToGRange(c("chr1:1-100:+","chr2:400-500:-","chr1:10-50:*"))
-StrToGRange <- function(x.chr_vec){
+#' StrToGRanges("chr1:1-100:+")
+#' StrToGRanges(c("chr1:1-100:+","chr2:400-500:-","chr1:10-50:*"))
+StrToGRanges <- function(x.chr_vec){
     x.grn <- lapply(x.chr_vec, function(x.chr){
         x.chr %<>% stringr::str_split(":") %>% unlist
         seqnames.chr <- x.chr[1]

@@ -19,7 +19,13 @@
     <loc>/reference/BinGRange.html</loc>
   </url>
   <url>
+    <loc>/reference/BinGRanges.html</loc>
+  </url>
+  <url>
     <loc>/reference/GenomicSystem.html</loc>
+  </url>
+  <url>
+    <loc>/reference/IndexFeatures.html</loc>
   </url>
   <url>
     <loc>/reference/IndexGRanges.html</loc>
@@ -35,6 +41,9 @@
   </url>
   <url>
     <loc>/reference/StrToGRange.html</loc>
+  </url>
+  <url>
+    <loc>/reference/StrToGRanges.html</loc>
   </url>
   <url>
     <loc>/reference/compound.html</loc>
