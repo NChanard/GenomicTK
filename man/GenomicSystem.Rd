@@ -2,20 +2,21 @@
 % Please edit documentation in R/GenomicSystem.r
 \name{GenomicSystem}
 \alias{GenomicSystem}
-\title{GenomicSystem}
+\title{Convert numbers of base pairs into string and vice versa.}
 \usage{
 GenomicSystem(x, digits.num = 3)
 }
 \arguments{
-\item{x}{<character or numeric>: the number to convert}
+\item{x}{<character or numeric>: the number to convert or string to convert.}
 
-\item{digits.num}{<numeric>: integer indicating the number of significant digits to be used. See ?signif() for more informations. (Default 3)}
+\item{digits.num}{<integer>: The number of significant digits to be used. See signif() for more informations. (Default 3)}
 }
 \value{
-the converted number
+the converted number or string.
 }
 \description{
-Convert numbers into writing with order of magnitude (Kilo, Mega, Giga) and vice versa.
+GenomicSystem
+Convert numbers of base into string with order of magnitude (Kbp, Mbp, Gbp) and vice versa.
 }
 \examples{
 GenomicSystem(1540,3)

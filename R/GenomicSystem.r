@@ -1,9 +1,10 @@
-#' GenomicSystem
+#' Convert numbers of base pairs into string and vice versa.
 #'
-#' Convert numbers into writing with order of magnitude (Kilo, Mega, Giga) and vice versa.
-#' @param x <character or numeric>: the number to convert
-#' @param digits.num <numeric>: integer indicating the number of significant digits to be used. See ?signif() for more informations. (Default 3)
-#' @return the converted number
+#' GenomicSystem
+#' Convert numbers of base into string with order of magnitude (Kbp, Mbp, Gbp) and vice versa.
+#' @param x <character or numeric>: the number to convert or string to convert.
+#' @param digits.num <integer>: The number of significant digits to be used. See signif() for more informations. (Default 3)
+#' @return the converted number or string.
 #' @examples
 #' GenomicSystem(1540,3)
 #' GenomicSystem(1540,2)

@@ -1,0 +1,21 @@
+template:
+  bootstrap: 5
+
+reference:
+- title: GRanges
+  contents:
+  - BinGRanges
+  - MergeGRanges
+  - SeqEnds
+
+- title: Other
+  contents:
+  - GenomicSystem
+  - StrToGRanges
+
+articles:
+- title: Other
+  navbar: ~
+  contents:
+  - Standard  
+

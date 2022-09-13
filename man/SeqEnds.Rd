@@ -2,18 +2,19 @@
 % Please edit documentation in R/SeqEnds.r
 \name{SeqEnds}
 \alias{SeqEnds}
-\title{SeqEnds}
+\title{Get all sequences lengths.}
 \usage{
 SeqEnds(x.gnr)
 }
 \arguments{
-\item{x.gnr}{<GRanges>: a GRanges object}
+\item{x.gnr}{<GRanges>: a GRanges object.}
 }
 \value{
-An integer vector of the color's rgb code
+an integer vector.
 }
 \description{
-return sequence lengths for each ranges of a GRanges object
+SeqEnds
+Get all sequences lengths for each ranges of a GRanges object.
 }
 \examples{
 GRange.grn <- GenomicRanges::GRanges(

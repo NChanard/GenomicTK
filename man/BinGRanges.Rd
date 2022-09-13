@@ -2,7 +2,7 @@
 % Please edit documentation in R/BinGRanges.r
 \name{BinGRanges}
 \alias{BinGRanges}
-\title{BinGRanges}
+\title{Bin a GRanges.}
 \usage{
 BinGRanges(
   gRange.gnr = NULL,
@@ -17,29 +17,30 @@ BinGRanges(
 )
 }
 \arguments{
-\item{gRange.gnr}{<GRanges>: A GRange to bin}
+\item{gRange.gnr}{<GRanges>: a GRanges to bin.}
 
-\item{chromSize.dtf}{<data.frame>: A data.frame of genome where first colum correspond to the chromosomes names, and the second column correspond to the chromosomes lengths in base pairs.}
+\item{chromSize.dtf}{<data.frame>: a data.frame where first colum correspond to the chromosomes names, and the second column correspond to the chromosomes lengths in base pairs.}
 
-\item{binSize.int}{<integer>: A number that specify the width bins.}
+\item{binSize.int}{<integer>: width of the bins.}
 
-\item{method.chr}{<character>: A string of a summary method name as 'mean', 'median', 'sum', 'max, 'min'. (Default 'mean'')}
+\item{method.chr}{<character>: name of a summary method as 'mean', 'median', 'sum', 'max, 'min'. (Default 'mean')}
 
-\item{variablesName.chr_vec}{<character> : A character vector that specify the metadata columns of GRanges on which apply the summary method.}
+\item{variablesName.chr_vec}{<character> : a character vector that specify the metadata columns of GRanges on which apply the summary method.}
 
-\item{na.rm}{<logical> : A logical value indicating whether 'NA' values should be stripped before the computation proceeds. (Default TRUE)}
+\item{na.rm}{<logical> : a logical value indicating whether 'NA' values should be stripped before the computation proceeds. (Default TRUE)}
 
-\item{cores.num}{<integer> : An integer to specify the number of cores. (Default 1)}
+\item{cores.num}{<integer> : the number of cores. (Default 1)}
 
-\item{reduce.bln}{<logical> : A logical value indicating whether duplicated Bin must been reduced with de summary method. (Default TRUE)}
+\item{reduce.bln}{<logical> : whether duplicated Bin must been reduced with de summary method. (Default TRUE)}
 
-\item{verbose.bln}{<logical>: A logical value. If TRUE show the progression in console. (Default TRUE)}
+\item{verbose.bln}{<logical>: if TRUE show the progression in console. (Default TRUE)}
 }
 \value{
-A GRange object
+A binned GRanges.
 }
 \description{
-Bin a GRanges and allow to apply a summary method ('mean', 'median', 'sum', 'max, 'min' ...) to chossen numerical variables of ranges in a same bin.
+BinGRanges
+Bin a GRanges and allow to apply a summary method (e.g: 'mean', 'median', 'sum', 'max, 'min' ...) to a chossen numericals variables of ranges in a same bin.
 }
 \examples{
 GRange.gnr <- GenomicRanges::GRanges(

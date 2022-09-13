@@ -1,8 +1,9 @@
-#' SeqEnds
+#' Get all sequences lengths.
 #'
-#' return sequence lengths for each ranges of a GRanges object
-#' @param x.gnr <GRanges>: a GRanges object
-#' @return An integer vector of the color's rgb code
+#' SeqEnds
+#' Get all sequences lengths for each ranges of a GRanges object.
+#' @param x.gnr <GRanges>: a GRanges object.
+#' @return an integer vector.
 #' @examples
 #' GRange.grn <- GenomicRanges::GRanges(
 #'     seqnames = S4Vectors::Rle(c("chr1", "chr2", "chr1"), c(1, 3, 1)),

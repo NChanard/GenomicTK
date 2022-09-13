@@ -1,13 +1,14 @@
-#' StrToGRanges
+#' Convert String in GRanges object
 #'
-#' Convert ranges written in Genomic system (i.e seqname:start-end:strand) in GRanges object.
-#' @param x.chr_vec <character>: strings to convert on GRanges
-#' @return A GRanges object
+#' StrToGRanges
+#' Convert ranges describe with string (i.e seqname:start-end:strand) in GRanges object.
+#' @param x.chr_vec <character>: strings to convert on GRanges.
+#' @return a GRanges object.
 #' @examples
 #' StrToGRanges("chr1:1-100:+")
 #' StrToGRanges(c("chr1:1-100:+","chr2:400-500:-","chr1:10-50:*"))
 StrToGRanges <- function(x.chr_vec){
-    x.grn <- lapply(x.chr_vec, function(x.chr){
+    x.gnr <- lapply(x.chr_vec, function(x.chr){
         x.chr %<>% stringr::str_split(":") %>% unlist
         seqnames.chr <- x.chr[1]
         ranges.num <- x.chr[2] %>% stringr::str_split("-") %>% unlist %>% as.numeric
@@ -18,8 +19,9 @@ StrToGRanges <- function(x.chr_vec){
             seqnames=seqnames.chr,
             ranges=IRanges::IRanges(start=start.num, end=end.num),
             strand=strand.chr) %>%
-        return(.)
-    }) %>% GenomicTK::MergeGRanges(.) 
-    S4Vectors::mcols(x.grn)$names <- names(x.chr_vec)
-    return(x.grn)
+        return(.data)
+    })
+    x.gnr <- GenomicTK::MergeGRanges(x.gnr) 
+    S4Vectors::mcols(x.gnr)$names <- names(x.chr_vec)
+    return(x.gnr)
 }

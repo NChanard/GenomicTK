@@ -2,22 +2,23 @@
 % Please edit documentation in R/MergeGRanges.r
 \name{MergeGRanges}
 \alias{MergeGRanges}
-\title{MergeGRanges}
+\title{Merge GRanges or a list of GRanges}
 \usage{
 MergeGRanges(..., sort.bln = FALSE, reduce.bln = FALSE)
 }
 \arguments{
-\item{...}{<GRanges or GRangesList or list[GRanges]>: some GRanges or a list of GRanges or a GRangesList}
+\item{...}{<GRanges or GRangesList or list[GRanges]>: some GRanges or a list of GRanges or a GRangesList.}
 
-\item{sort.bln}{<logical>: a logical value that inform if you want use the sort function on the merged GRange.  (Default FALSE)}
+\item{sort.bln}{<logical>: whether the result should be sorted. (Default FALSE)}
 
-\item{reduce.bln}{<logical>: a logical value that inform if you want use the reduce function (GenomicRanges package) on the merged GRange. (Default FALSE)}
+\item{reduce.bln}{<logical>: whether the result should be reduce. See GenomicRanges::reduce for more details. (Default FALSE)}
 }
 \value{
-a GRange object
+a GRange object.
 }
 \description{
-Merge some GRanges or a list of GRanges
+MergeGRanges
+Merge GRanges or a list of GRanges
 }
 \examples{
 GRange_1.grn <- GenomicRanges::GRanges(

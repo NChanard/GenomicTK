@@ -1,11 +1,11 @@
+#' Merge GRanges or a list of GRanges
+#' 
 #' MergeGRanges
-#'
-#' Merge some GRanges or a list of GRanges
-#' @param ... <GRanges or GRangesList or list[GRanges]>: some GRanges or a list of GRanges or a GRangesList
-#' @param sort.bln <logical>: a boolean that indicate if the alpha layer must be return. (Default FALSE)
-#' @param reduce.bln <logical>: a logical value that inform if you want use the reduce function (GenomicRanges package) on the merged GRange. (Default FALSE)
-#' @param sort.bln <logical>: a logical value that inform if you want use the sort function on the merged GRange.  (Default FALSE)
-#' @return a GRange object
+#' Merge GRanges or a list of GRanges
+#' @param ... <GRanges or GRangesList or list[GRanges]>: some GRanges or a list of GRanges or a GRangesList.
+#' @param sort.bln <logical>: whether the result should be sorted. (Default FALSE)
+#' @param reduce.bln <logical>: whether the result should be reduce. See GenomicRanges::reduce for more details. (Default FALSE)
+#' @return a GRange object.
 #' @examples
 #' GRange_1.grn <- GenomicRanges::GRanges(
 #'     seqnames = S4Vectors::Rle(c("chr1", "chr2", "chr1"), c(1, 3, 1)),
@@ -28,6 +28,6 @@
 MergeGRanges = function(...,sort.bln=FALSE, reduce.bln=FALSE){
         mergedGrange.grn <- unlist(GenomicRanges::GRangesList(...))
         if(sort.bln){mergedGrange.grn %<>% sort}
-        if(reduce.bln){mergedGrange.grn %<>% GenomicRanges::reduce(.)}
+        if(reduce.bln){mergedGrange.grn <- GenomicRanges::reduce(mergedGrange.grn)}
         return(mergedGrange.grn)
 }
