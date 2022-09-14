@@ -45,9 +45,8 @@ BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, me
         binnedGRanges.gnr <- binnedGenome.gnr[ovlp.dtf@from]
         S4Vectors::mcols(binnedGRanges.gnr) <- S4Vectors::mcols(gRange.gnr[ovlp.dtf@to])
         binnedGRanges.gnr$bin <-  paste0(GenomeInfoDb::seqnames(binnedGRanges.gnr),":", ceiling(BiocGenerics::start(binnedGRanges.gnr)/binSize.int))
-        dupplicated.id     <- duplicated(binnedGRanges.gnr$bin)
-        dupplicatedBin.ndx <- which(binnedGRanges.gnr$bin %in% dupplicated.id)
-        dupplicated.id     <- binnedGRanges.gnr$bin[dupplicatedBin.ndx]
+        dupplicated.lgk <- duplicated(binnedGRanges.gnr$bin)
+        dupplicated.id  <- binnedGRanges.gnr$bin[dupplicated.lgk]
         if(reduce.bln && length(dupplicated.id)){
             binnedGRange.tbl <- tibble::tibble(data.frame(binnedGRanges.gnr))
             nodup_binnedGRange.tbl <- dplyr::slice(binnedGRange.tbl , which(DevTK::NotIn(binnedGRange.tbl$bin, dupplicated.id)) )
