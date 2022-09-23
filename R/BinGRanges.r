@@ -107,7 +107,6 @@ BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, me
                 dup_binnedGRange.tbl <- tibble::tibble(dup_binnedGRange.dtf) %>%
                     dplyr::mutate(strand=forcats::as_factor(.data$strand))
                 parallel::stopCluster(parCl)
-                DevTK::KillZombies()
             }
             for(colName.chr in names(dup_binnedGRange.tbl)){
                 method.chr <- dplyr::pull(dup_binnedGRange.tbl,dplyr::all_of(colName.chr)) %>% class

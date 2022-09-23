@@ -6,6 +6,8 @@
 <!-- badges: start -->
 
 [![R-CMD-check](https://github.com/NChanard/GenomicTK/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/NChanard/GenomicTK/actions/workflows/R-CMD-check.yaml)
+[![Codecov test
+coverage](https://codecov.io/gh/NChanard/GenomicTK/branch/master/graph/badge.svg)](https://app.codecov.io/gh/NChanard/GenomicTK?branch=master)
 <!-- badges: end -->
 
 GenomicTK is a Set of genomic data manipulation tools.
