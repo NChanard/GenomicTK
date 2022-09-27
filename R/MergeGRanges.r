@@ -27,7 +27,7 @@
 #' MergeGRanges(GRange.lst, reduce.bln=TRUE)
 MergeGRanges = function(...,sort.bln=FALSE, reduce.bln=FALSE){
         mergedGrange.grn <- unlist(GenomicRanges::GRangesList(...))
-        if(sort.bln){mergedGrange.grn %<>% sort}
+        if(sort.bln){mergedGrange.grn <- sort(mergedGrange.grn )}
         if(reduce.bln){mergedGrange.grn <- GenomicRanges::reduce(mergedGrange.grn)}
         return(mergedGrange.grn)
 }

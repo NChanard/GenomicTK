@@ -22,9 +22,9 @@ GenomicSystem <- function(x, digits.num=3) {
     }else if(is.character(x)){
         x <- toupper(x)
         dplyr::case_when(
-            stringr::str_detect(x,"G") ~ stringr::str_remove_all(x,"[:alpha:]*") %>% as.numeric %>% magrittr::multiply_by(10**9),
-            stringr::str_detect(x,"M") ~ stringr::str_remove_all(x,"[:alpha:]*") %>% as.numeric %>% magrittr::multiply_by(10**6),
-            stringr::str_detect(x,"K") ~ stringr::str_remove_all(x,"[:alpha:]*") %>% as.numeric %>% magrittr::multiply_by(10**3),
+            grepl(x=x, pattern="G") ~ as.numeric(gsub(x=x, pattern="[a-z]", ignore.case=TRUE, replacement=""))*(10**9),
+            grepl(x=x, pattern="M") ~ as.numeric(gsub(x=x, pattern="[a-z]", ignore.case=TRUE, replacement=""))*(10**6),
+            grepl(x=x, pattern="K") ~ as.numeric(gsub(x=x, pattern="[a-z]", ignore.case=TRUE, replacement=""))*(10**3),
             suppressWarnings(!is.na(as.numeric(x))) ~ suppressWarnings(as.numeric(x))
         )
     }

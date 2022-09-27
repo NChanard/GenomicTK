@@ -17,13 +17,10 @@ Imports:
     GenomeInfoDb,
     GenomicRanges,
     IRanges,
-    magrittr,
     methods,
     parallel,
     plyr,
-    rlang,
     S4Vectors,
-    stringr,
     tibble,
     tidyr
 Suggests:

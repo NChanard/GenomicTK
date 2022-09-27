@@ -35,9 +35,8 @@ BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, me
         if(is.null(chromSize.dtf)){
             seqlengths.lst <- GenomeInfoDb::seqlengths(gRange.gnr)
         }else{
-            seqlengths.lst <- chromSize.dtf %>%
-                dplyr::pull(2) %>%
-                magrittr::set_names({chromSize.dtf %>% dplyr::pull(1)})
+            seqlengths.lst <- dplyr::pull(chromSize.dtf,2) |>
+                stats::setNames(dplyr::pull(chromSize.dtf,1))
             GenomeInfoDb::seqlengths(gRange.gnr) <- seqlengths.lst
         }
         binnedGenome.gnr <- GenomicRanges::tileGenome(seqlengths.lst, tilewidth=binSize.int, cut.last.tile.in.chrom=TRUE)
@@ -49,9 +48,9 @@ BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, me
         dupplicated.id  <- binnedGRanges.gnr$bin[dupplicated.lgk]
         if(reduce.bln && length(dupplicated.id)){
             binnedGRange.tbl <- tibble::tibble(data.frame(binnedGRanges.gnr))
-            nodup_binnedGRange.tbl <- dplyr::slice(binnedGRange.tbl , which(DevTK::NotIn(binnedGRange.tbl$bin, dupplicated.id)) )
-            dup_binnedGRange.tbl   <- dplyr::slice(binnedGRange.tbl, which(binnedGRange.tbl$bin %in% dupplicated.id) ) %>%
-                dplyr::group_by(.data$bin) %>%
+            nodup_binnedGRange.tbl <- dplyr::slice(binnedGRange.tbl, which(DevTK::NotIn(binnedGRange.tbl$bin, dupplicated.id)) )
+            dup_binnedGRange.tbl   <- dplyr::slice(binnedGRange.tbl, which(binnedGRange.tbl$bin %in% dupplicated.id) ) 
+            dup_binnedGRange.tbl   <- dplyr::group_by(dup_binnedGRange.tbl, bin=dup_binnedGRange.tbl$bin) |>
                 tidyr::nest()
             jobLenght.num <- nrow(dup_binnedGRange.tbl)
             if(cores.num==1){
@@ -71,15 +70,15 @@ BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, me
                         }else{
                             return(list(col))
                         }
-                    }) %>%
-                        magrittr::set_names(names(row))
-                    tibble::as_tibble(row.lst) %>%
-                        tibble::add_column(bin = rowName.chr) %>%
-                        return(.data)
+                    }) |>
+                        stats::setNames(names(row))
+                    row.tbl <- tibble::as_tibble(row.lst) |>
+                        tibble::add_column(bin = rowName.chr)
+                    return(row.tbl)
                 })
                 dup_binnedGRange.dtf <- plyr::rbind.fill(dup_binnedGRange.lst)
-                dup_binnedGRange.tbl <- tibble::tibble(dup_binnedGRange.dtf) %>%
-                    dplyr::mutate(strand=forcats::as_factor(.data$strand))
+                dup_binnedGRange.tbl <- tibble::tibble(dup_binnedGRange.dtf)
+                dup_binnedGRange.tbl <- dplyr::mutate(dup_binnedGRange.tbl, strand=forcats::as_factor(dup_binnedGRange.tbl$strand))
                 if(verbose.bln){cat("\n")}
             }else if(cores.num>=2){
                 parCl <- parallel::makeCluster(cores.num, type ="FORK")
@@ -97,26 +96,26 @@ BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, me
                         }else{
                             return(list(col))
                         }
-                    }) %>%
-                        magrittr::set_names(names(row))
-                    tibble::as_tibble(row.lst) %>%
-                        tibble::add_column(bin =  rowName.chr) %>%
-                        return(.data)
+                    }) |>
+                        stats::setNames(names(row))
+                    row.tbl <- tibble::as_tibble(row.lst) |>
+                        tibble::add_column(bin =  rowName.chr)
+                    return(row.tbl)
                 }) 
                 dup_binnedGRange.dtf <- plyr::rbind.fill(dup_binnedGRange.lst)
-                dup_binnedGRange.tbl <- tibble::tibble(dup_binnedGRange.dtf) %>%
-                    dplyr::mutate(strand=forcats::as_factor(.data$strand))
+                dup_binnedGRange.tbl <- tibble::tibble(dup_binnedGRange.dtf)
+                dup_binnedGRange.tbl <- dplyr::mutate(dup_binnedGRange.tbl, strand=forcats::as_factor(dup_binnedGRange.tbl$strand))
                 parallel::stopCluster(parCl)
             }
             for(colName.chr in names(dup_binnedGRange.tbl)){
-                method.chr <- dplyr::pull(dup_binnedGRange.tbl,dplyr::all_of(colName.chr)) %>% class
+                method.chr <- dplyr::pull(dup_binnedGRange.tbl,dplyr::all_of(colName.chr)) |> class()
                 method.fun <- eval(parse(text=paste0("as.",method.chr)))
-                nodup_binnedGRange.tbl %<>% dplyr::mutate(dplyr::across(dplyr::all_of(colName.chr),method.fun))
+                nodup_binnedGRange.tbl <- nodup_binnedGRange.tbl |> dplyr::mutate(dplyr::across(dplyr::all_of(colName.chr),method.fun))
             }
             binnedGRange.tbl <- dplyr::bind_rows(dup_binnedGRange.tbl,nodup_binnedGRange.tbl)
             binnedGRanges.gnr <- methods::as(binnedGRange.tbl,'GRanges')
         }
-        binnedGRanges.gnr %<>% sort
+        binnedGRanges.gnr <- sort(binnedGRanges.gnr)
         GenomeInfoDb::seqinfo(binnedGRanges.gnr) <- GenomeInfoDb::seqinfo(gRange.gnr)
         return(binnedGRanges.gnr)
 }
