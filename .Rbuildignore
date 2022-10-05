@@ -2,7 +2,6 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^\.git
-^docs
 ^README\.Rmd$
 ^\.github$
 ^pkgdown$
