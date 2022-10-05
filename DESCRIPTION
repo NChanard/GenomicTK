@@ -5,10 +5,9 @@ Version: 0.1.0
 Author: Nicolas Chanard \<nicolas.chanard@univ-tlse3.fr>
 Maintainer: Nicolas Chanard \<nicolas.chanard@univ-tlse3.fr>
 Description: Set of genomic data manipulation tools.
-URL:
-    https://nchanard.github.io/GenomicTK/,
-    https://github.com/NChanard/GenomicTK
 License: MIT + file LICENSE
+URL:https://nchanard.github.io/GenomicTK/,
+    https://github.com/NChanard/GenomicTK
 Depends:
     R (>= 4.1)
 Imports:
