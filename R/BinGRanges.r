@@ -82,7 +82,6 @@ BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, me
             if(verbose.bln){cat("\n")}
         }else if(cores.num>=2){
             parCl <- parallel::makeCluster(cores.num, type ="PSOCK")
-            doParallel::registerDoParallel(parCl)
             dup_binnedGRange.lst <- parallel::parLapply(parCl,seq_len(jobLenght.num),function(row.ndx){
                 rowName.chr <- dup_binnedGRange.tbl$bin[[row.ndx]]
                 row <- dup_binnedGRange.tbl$data[[row.ndx]]

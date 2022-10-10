@@ -13,7 +13,6 @@ Depends:
 Imports:
     BiocGenerics,
     DevTK,
-    doParallel,
     dplyr,
     forcats,
     GenomeInfoDb,
