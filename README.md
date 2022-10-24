@@ -18,7 +18,7 @@ You can install the development version of GenomicTK from
 [GitHub](https://github.com/) with:
 
 ``` r
-devtools::install_github("NChanard/GenomicTK")
+remotes::install_github("NChanard/GenomicTK")
 ```
 
 ## Documentation

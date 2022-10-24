@@ -6,11 +6,11 @@ GRange.gnr <- GenomicRanges::GRanges(
     )
 GRange.gnr
 chromSize.dtf = data.frame(c("chr1","chr2"),c(350,100))
-binSize.int <- 100
+binSize.num <- 100
 binnedGRanges.gnr <- BinGRanges(
     gRange.gnr = GRange.gnr,
     chromSize.dtf=chromSize.dtf,
-    binSize.int=binSize.int,
+    binSize.num=binSize.num,
     method.chr ="mean",
     variablesName.chr_vec="score",
     na.rm=TRUE
@@ -18,7 +18,7 @@ binnedGRanges.gnr <- BinGRanges(
 binnedGRanges.gnr <- BinGRanges(
     gRange.gnr = GRange.gnr,
     chromSize.dtf=chromSize.dtf,
-    binSize.int=binSize.int,
+    binSize.num=binSize.num,
     method.chr ="mean",
     variablesName.chr_vec="score",
     na.rm=TRUE,

@@ -12,10 +12,3 @@ reference:
   contents:
   - GenomicSystem
   - StrToGRanges
-
-articles:
-- title: Other
-  navbar: ~
-  contents:
-  - Standard  
-

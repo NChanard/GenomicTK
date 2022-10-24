@@ -4,11 +4,11 @@
 #' Bin a GRanges and allow to apply a summary method (e.g: 'mean', 'median', 'sum', 'max, 'min' ...) to a chossen numericals variables of ranges in a same bin.
 #' @param gRange.gnr <GRanges>: a GRanges to bin.
 #' @param chromSize.dtf <data.frame>: a data.frame where first colum correspond to the chromosomes names, and the second column correspond to the chromosomes lengths in base pairs.
-#' @param binSize.int <integer>: width of the bins.
+#' @param binSize.num <numerical>: width of the bins.
 #' @param method.chr <character>: name of a summary method as 'mean', 'median', 'sum', 'max, 'min'. (Default 'mean')
 #' @param variablesName.chr_vec <character> : a character vector that specify the metadata columns of GRanges on which apply the summary method.
 #' @param na.rm <logical> : a logical value indicating whether 'NA' values should be stripped before the computation proceeds. (Default TRUE)
-#' @param cores.num <integer> : the number of cores. (Default 1)
+#' @param cores.num <numerical> : the number of cores. (Default 1)
 #' @param reduce.bln <logical> : whether duplicated Bin must been reduced with de summary method. (Default TRUE)
 #' @param verbose.bln <logical>: if TRUE show the progression in console. (Default TRUE)
 #' @return A binned GRanges.
@@ -21,29 +21,31 @@
 #'     )
 #' GRange.gnr
 #' chromSize.dtf = data.frame(c("chr1","chr2"),c(350,100))
-#' binSize.int <- 100
+#' binSize.num <- 100
 #' binnedGRanges.gnr <- BinGRanges(
 #'     gRange.gnr = GRange.gnr,
 #'     chromSize.dtf=chromSize.dtf,
-#'     binSize.int=binSize.int,
+#'     binSize.num=binSize.num,
 #'     method.chr ="mean",
 #'     variablesName.chr_vec="score",
 #'     na.rm=TRUE
 #' )
 #' binnedGRanges.gnr
-BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.int=NULL, method.chr="mean", variablesName.chr_vec=NULL, na.rm=TRUE, cores.num=1, reduce.bln=TRUE, verbose.bln=TRUE){
+BinGRanges = function (gRange.gnr=NULL, chromSize.dtf=NULL, binSize.num=NULL, method.chr="mean", variablesName.chr_vec=NULL, na.rm=TRUE, cores.num=1, reduce.bln=TRUE, verbose.bln=TRUE){
     if(is.null(chromSize.dtf)){
         seqlengths.lst <- GenomeInfoDb::seqlengths(gRange.gnr)
     }else{
         seqlengths.lst <- dplyr::pull(chromSize.dtf,2) |>
             stats::setNames(dplyr::pull(chromSize.dtf,1))
+        seqlengths.lst <- seqlengths.lst[intersect(names(seqlengths.lst), levels(GenomeInfoDb::seqnames(gRange.gnr)@values))]
+        gRange.gnr <- GenomeInfoDb::keepSeqlevels(gRange.gnr,value=names(seqlengths.lst), "coarse")
         GenomeInfoDb::seqlengths(gRange.gnr) <- seqlengths.lst
     }
-    binnedGenome.gnr <- GenomicRanges::tileGenome(seqlengths.lst, tilewidth=binSize.int, cut.last.tile.in.chrom=TRUE)
+    binnedGenome.gnr <- GenomicRanges::tileGenome(seqlengths.lst, tilewidth=binSize.num, cut.last.tile.in.chrom=TRUE)
     ovlp.dtf <- GenomicRanges::findOverlaps(binnedGenome.gnr, gRange.gnr)
     binnedGRanges.gnr <- binnedGenome.gnr[ovlp.dtf@from]
     S4Vectors::mcols(binnedGRanges.gnr) <- S4Vectors::mcols(gRange.gnr[ovlp.dtf@to])
-    binnedGRanges.gnr$bin <-  paste0(GenomeInfoDb::seqnames(binnedGRanges.gnr),":", ceiling(BiocGenerics::start(binnedGRanges.gnr)/binSize.int))
+    binnedGRanges.gnr$bin <-  paste0(GenomeInfoDb::seqnames(binnedGRanges.gnr),":", ceiling(BiocGenerics::start(binnedGRanges.gnr)/binSize.num))
     dupplicated.lgk <- duplicated(binnedGRanges.gnr$bin)
     dupplicated.id  <- binnedGRanges.gnr$bin[dupplicated.lgk]
     if(reduce.bln && length(dupplicated.id)){

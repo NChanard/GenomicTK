@@ -7,7 +7,7 @@
 BinGRanges(
   gRange.gnr = NULL,
   chromSize.dtf = NULL,
-  binSize.int = NULL,
+  binSize.num = NULL,
   method.chr = "mean",
   variablesName.chr_vec = NULL,
   na.rm = TRUE,
@@ -21,7 +21,7 @@ BinGRanges(
 
 \item{chromSize.dtf}{<data.frame>: a data.frame where first colum correspond to the chromosomes names, and the second column correspond to the chromosomes lengths in base pairs.}
 
-\item{binSize.int}{<integer>: width of the bins.}
+\item{binSize.num}{<numerical>: width of the bins.}
 
 \item{method.chr}{<character>: name of a summary method as 'mean', 'median', 'sum', 'max, 'min'. (Default 'mean')}
 
@@ -29,7 +29,7 @@ BinGRanges(
 
 \item{na.rm}{<logical> : a logical value indicating whether 'NA' values should be stripped before the computation proceeds. (Default TRUE)}
 
-\item{cores.num}{<integer> : the number of cores. (Default 1)}
+\item{cores.num}{<numerical> : the number of cores. (Default 1)}
 
 \item{reduce.bln}{<logical> : whether duplicated Bin must been reduced with de summary method. (Default TRUE)}
 
@@ -51,11 +51,11 @@ GRange.gnr <- GenomicRanges::GRanges(
     )
 GRange.gnr
 chromSize.dtf = data.frame(c("chr1","chr2"),c(350,100))
-binSize.int <- 100
+binSize.num <- 100
 binnedGRanges.gnr <- BinGRanges(
     gRange.gnr = GRange.gnr,
     chromSize.dtf=chromSize.dtf,
-    binSize.int=binSize.int,
+    binSize.num=binSize.num,
     method.chr ="mean",
     variablesName.chr_vec="score",
     na.rm=TRUE
